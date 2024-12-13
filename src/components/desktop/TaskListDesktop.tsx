@@ -1,5 +1,4 @@
-// src/components/TaskListDesktop.tsx
-import { DragEvent, FC, useContext } from "react";
+import React, { DragEvent, FC, useContext } from "react";
 import { TodoContext } from "../../context/todo/TodoContext";
 import { Todo, TodoState } from "../../reducers/todoReducer";
 
@@ -7,7 +6,7 @@ interface TaskListProps {
   column: keyof TodoState;
 }
 
-export const TaskListDesktop: FC<TaskListProps> = ({ column }) => {
+export const TaskListDesktop: FC<TaskListProps> = React.memo(({ column }) => {
   const { state, moveTodo, removeTodo } = useContext(TodoContext)!;
   const tasks = state[column];
 
@@ -75,6 +74,9 @@ export const TaskListDesktop: FC<TaskListProps> = ({ column }) => {
             className="p-4 bg-white shadow-md rounded-lg cursor-pointer hover:shadow-xl transition-all duration-300"
             draggable
             onDragStart={(e) => handleDragStart(e, task.id)}
+            onTouchStart={(e) =>
+              handleDragStart(e as unknown as DragEvent, task.id)
+            } // Para mobile
           >
             <p className="text-lg font-semibold text-gray-800">{task.text}</p>
             <div className="flex flex-col gap-2 mt-2">
@@ -102,6 +104,8 @@ export const TaskListDesktop: FC<TaskListProps> = ({ column }) => {
                 className={`${
                   column === "completed"
                     ? "bg-yellow-400 text-white"
+                    : column === "inProgress"
+                    ? "bg-green-500 text-white"
                     : "bg-blue-500 text-white"
                 } py-2 px-4 rounded-md w-full text-sm`}
               >
@@ -118,4 +122,4 @@ export const TaskListDesktop: FC<TaskListProps> = ({ column }) => {
       </div>
     </div>
   );
-};
+});
