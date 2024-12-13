@@ -15,7 +15,8 @@ export type TodoAction =
   | { type: "ADD_TODO"; text: string }
   | { type: "REMOVE_TODO"; id: number }
   | { type: "MOVE_TODO"; id: number; fromColumn: string; toColumn: string }
-  | { type: "SET_TODOS"; todos: Todo[] };
+  | { type: "SET_TODOS"; todos: Todo[] }
+  | { type: "REMOVE_ALL"; todos: Todo[] };
 
 export const initialState: TodoState = {
   todo: [],
@@ -43,6 +44,14 @@ export const todoReducer = (
         todo: state.todo.filter((todo) => todo.id !== action.id),
         inProgress: state.inProgress.filter((todo) => todo.id !== action.id),
         completed: state.completed.filter((todo) => todo.id !== action.id),
+      };
+
+    case "REMOVE_ALL":
+      return {
+        ...state,
+        completed: state.completed.filter(
+          (todo) => !action.todos.includes(todo)
+        ),
       };
 
     case "MOVE_TODO": {

@@ -1,10 +1,10 @@
 // src/components/AddTask.tsx
-import React, { useState, useContext } from "react";
-import { TodoContext } from "../context/todo/TodoContext";
+import React, { useState } from "react";
+import { useTodos } from "../hooks/useTodos";
 
 export const AddTask: React.FC = () => {
   const [text, setText] = useState("");
-  const { addTodo } = useContext(TodoContext)!;
+  const { addTodo } = useTodos()!;
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();

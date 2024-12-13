@@ -7,7 +7,12 @@ export interface TodoContextType {
   dispatch: Dispatch<TodoAction>;
   addTodo: (text: string) => void;
   removeTodo: (id: number) => void;
-  moveTodo: (id: number, fromColumn: string, toColumn: string) => void;
+  removeAll: () => void;
+  moveTodo: (
+    id: number,
+    fromColumn: keyof TodoState,
+    toColumn: keyof TodoState
+  ) => void;
 }
 
 export const TodoContext = createContext<TodoContextType | undefined>(

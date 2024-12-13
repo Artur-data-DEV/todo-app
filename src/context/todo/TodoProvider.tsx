@@ -1,7 +1,11 @@
 // src/context/TodoProvider.tsx
 import React, { ReactNode, useReducer, useEffect, useCallback } from "react";
 import { TodoContext } from "./TodoContext";
-import { todoReducer, initialState } from "../../reducers/todoReducer";
+import {
+  todoReducer,
+  initialState,
+  TodoState,
+} from "../../reducers/todoReducer";
 
 interface TodoProviderProps {
   children: ReactNode;
@@ -37,10 +41,17 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
     dispatch({ type: "REMOVE_TODO", id });
   }, []);
 
+  // Função para remover todas as tarefas
+  const removeAll = useCallback(() => {
+    dispatch({ type: "REMOVE_ALL", todos: state.completed });
+  }, [state]);
+
   // Função para mover uma tarefa entre as colunas
   const moveTodo = useCallback(
-    (id: number, fromColumn: string, toColumn: string) => {
-      dispatch({ type: "MOVE_TODO", id, fromColumn, toColumn });
+    (id: number, fromColumn: keyof TodoState, toColumn: keyof TodoState) => {
+      {
+        dispatch({ type: "MOVE_TODO", id, fromColumn, toColumn });
+      }
     },
     []
   );
@@ -52,6 +63,7 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
         dispatch,
         addTodo,
         removeTodo,
+        removeAll,
         moveTodo,
       }}
     >
