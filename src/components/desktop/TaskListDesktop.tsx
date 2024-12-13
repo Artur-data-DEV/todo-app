@@ -116,6 +116,16 @@ export const TaskListDesktop: FC<TaskListProps> = React.memo(({ column }) => {
                   ? "Concluído"
                   : "Em andamento"}
               </button>
+              {column === "completed" && (
+                <button
+                  onClick={() => moveTodo(task.id, column, "todo")}
+                  className={
+                    "bg-blue-500 text-white py-2 px-4 rounded-md w-full text-sm"
+                  }
+                >
+                  Mudar para à fazer
+                </button>
+              )}
             </div>
           </div>
         ))}
